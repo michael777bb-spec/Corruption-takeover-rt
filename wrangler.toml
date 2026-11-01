@@ -1,0 +1,18 @@
+name = "corruption-takeover-rt"
+main = "worker.js"
+compatibility_date = "2025-01-01"
+
+# Комнаты реального времени (WebSocket + Durable Objects)
+[[durable_objects.bindings]]
+name = "ROOM"
+class_name = "Room"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["Room"]
+
+# НЕОБЯЗАТЕЛЬНО: сохранение профиля на сервере (иначе профиль хранится только в браузере).
+# 1) npx wrangler kv namespace create KV   2) раскомментируй и вставь id:
+# [[kv_namespaces]]
+# binding = "KV"
+# id = "ВСТАВЬ_СЮДА_ID"
