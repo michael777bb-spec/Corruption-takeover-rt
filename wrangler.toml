@@ -1,6 +1,7 @@
 name = "corruption-takeover-rt"
 main = "worker.js"
 compatibility_date = "2025-01-01"
+workers_dev = true
 
 # Комнаты реального времени (WebSocket + Durable Objects)
 [[durable_objects.bindings]]
