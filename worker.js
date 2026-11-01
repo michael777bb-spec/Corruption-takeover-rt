@@ -128,10 +128,12 @@ export class Room extends DurableObject {
       p.alive = !!b.alive;
       p.finished = !!b.finished;
       p.hp = clampInt(b.hp ?? 100, 0, 100);
+      p.ms = clampInt(b.ms, -1, 3);
+      p.sk = clampInt(b.sk, 0, 9);
       if (b.pz && typeof b.pz === "object") p.pz = { to: cleanId(b.pz.to), n: clampInt(b.pz.n, 0, 9e15) };
       if (b.kill && typeof b.kill === "object") p.kill = { to: cleanId(b.kill.to), n: clampInt(b.kill.n, 0, 9e15) };
     } else {
-      delete p.x; delete p.y; delete p.alive; delete p.finished; delete p.hp; delete p.pz; delete p.kill;
+      delete p.x; delete p.y; delete p.alive; delete p.finished; delete p.hp; delete p.ms; delete p.sk; delete p.pz; delete p.kill;
     }
     ws.serializeAttachment(p);
     this.broadcast();
@@ -194,7 +196,15 @@ export default {
             owned,
             sel: owned.includes(b.profile.sel) ? b.profile.sel : 0,
             wins: clampInt(b.profile.wins, 0, 1e6),
+            cx: {},
+            skins: {},
+            skinSel: {},
           };
+          for (let i = 0; i <= 4; i++) {
+            profile.cx[i] = clampInt((b.profile.cx || {})[i], 0, 1e9);
+            profile.skins[i] = [...new Set(((b.profile.skins || {})[i] || []).filter((k) => Number.isInteger(k) && k >= 1 && k <= 9))];
+            profile.skinSel[i] = clampInt((b.profile.skinSel || {})[i], 0, 9);
+          }
           await env.KV.put(`user:${id}`, JSON.stringify(profile));
           return json({ ok: true });
         }
