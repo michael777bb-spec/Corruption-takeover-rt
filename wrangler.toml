@@ -17,3 +17,8 @@ new_sqlite_classes = ["Room"]
 # [[kv_namespaces]]
 # binding = "KV"
 # id = "ВСТАВЬ_СЮДА_ID"
+
+# Статические файлы (музыка): всё, что лежит в папке public/, раздаётся с сайта.
+# Положи туда ruins.mp3 — он будет играть на карте «Руины».
+[assets]
+directory = "./public"
